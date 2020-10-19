@@ -13,7 +13,10 @@ $.ajaxPrefilter(function(opt){
     }
     // 3.统一处理 服务器返回的 未登录 错误
     opt.complete=function(res){
+
         if(res.responseJSON.status===1){
+        if(res.responseJSON.status===1 && res.responseJSON.message==='认证失败！'){
+
             
             // a. 提示用户没有权限
             alert('对不起,你的登陆已失效,请重新登录！')
@@ -21,7 +24,8 @@ $.ajaxPrefilter(function(opt){
             // b.删除 localStorage 中可能存在的伪造的 token
             localStorage.removeItem('token');
             // c. 跳转到登陆页面
-            location.href='/login.html';
+            window.top.location.href='/login.html';
         }
     }
+}
 })
